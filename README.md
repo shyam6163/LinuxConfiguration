@@ -35,11 +35,11 @@ sudo apt-get upgrade
 
 ### Step 3: Change the SSH port from 22 to 2200
 
-- Edit the `/etc/ssh/sshd_config` file: `sudo vi /etc/ssh/sshd_config`.
+- Edit the following `/etc/ssh/sshd_config` file: `sudo vi /etc/ssh/sshd_config`.
 - Change the port number on line 5 from `22` to `2200`.
-- Save and exit using esc and confirm with :wq.
+- Then Save and exit using esc and confirm with :wq.
 - Restart SSH: `sudo service ssh restart`.
-- Change inbound rules in Amazon EC2 --> Type : Custom TCP Rule as 2200
+- Now Change inbound rules in Amazon EC2 --> Type : Custom TCP Rule as 2200
 - To check port 2200 wether working or not by `ssh -i catalog.pem -p 2200 ubuntu@18.205.194.121` 
 
 ### Step 4: Configure the Uncomplicated Firewall (UFW)
