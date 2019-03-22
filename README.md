@@ -10,8 +10,8 @@ This page explains how to secure and set up a Linux distribution on a virtual ma
 
 You can visit http://18.205.194.121.xip.io/ or http://ec2-18-205-194-121.compute-1.amazonaws.com/ for the website deployed.
 
-## Get a server
-### Step 1: Start a new Ubuntu Linux server instance on Amazon EC2 
+## Get a server and folllow the Order;
+### 1) Start a new Ubuntu Linux server instance on Amazon EC2 
 
   - Login to *[aws.amazon.com](https://console.aws.amazon.com)* and login to default user (ubuntu)
   - Choose EC2 and Launch Instance with appropriate settings.
