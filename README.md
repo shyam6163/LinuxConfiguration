@@ -11,7 +11,7 @@ This page explains how to secure and set up a Linux distribution on a virtual ma
 You can visit http://18.205.194.121.xip.io/ or http://ec2-18-205-194-121.compute-1.amazonaws.com/ for the website deployed.
 
 ## Get a server
-###1: Start a new Ubuntu Linux server instance on Amazon EC2 
+1: Start a new Ubuntu Linux server instance on Amazon EC2 
 
   - Login to *[aws.amazon.com](https://console.aws.amazon.com)* and login to default user (ubuntu)
   - Choose EC2 and Launch Instance with appropriate settings.
@@ -25,15 +25,14 @@ You can visit http://18.205.194.121.xip.io/ or http://ec2-18-205-194-121.compute
 
 ## Secure the server
 
-###2: Update and upgrade installed packages
+2: Update and upgrade installed packages
 
 ```
 sudo apt-get update
 sudo apt-get upgrade
 ```
 
-
-###3: Change the SSH port from 22 to 2200
+3: Change the SSH port from 22 to 2200
 
 - Edit the `/etc/ssh/sshd_config` file: `sudo vi /etc/ssh/sshd_config`.
 - Change the port number on line 5 from `22` to `2200`.
@@ -42,7 +41,7 @@ sudo apt-get upgrade
 - Change inbound rules in Amazon EC2 --> Type : Custom TCP Rule as 2200
 - To check port 2200 wether working or not by `ssh -i catalog.pem -p 2200 ubuntu@18.205.194.121` 
 
-###4: Configure the Uncomplicated Firewall (UFW)
+4: Configure the Uncomplicated Firewall (UFW)
 
 - Configure the default firewall for Ubuntu to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
   ```
@@ -81,13 +80,13 @@ sudo apt-get upgrade
 
 ## Give `grader` access
 
-###5: Create a new user account named `grader`
+5: Create a new user account named `grader`
 
 - While logged in as `ubuntu`, add user: `sudo adduser grader`. 
 - Enter a password (twice) and fill out information for this new user.
 
 
-###6: Give `grader` the permission to sudo
+6: Give `grader` the permission to sudo
 
 - Edits the sudoers file: `sudo visudo`.
 - Search for the line that looks like this:
@@ -105,7 +104,7 @@ sudo apt-get upgrade
 - Verify that `grader` has sudo permissions. Run `su - grader`, enter the password.
 
 
-###7: Create an SSH key pair for `grader`
+7: Create an SSH key pair for `grader`
 
   -Configure key-based authentication for grader user
   - create .ssh folder by `mkdir /home/grader/.ssh`
@@ -120,11 +119,11 @@ sudo apt-get upgrade
 
 ## Prepare to deploy the project
 
-###8: Configure the local timezone to UTC
+8: Configure the local timezone to UTC
 
 - While logged in as `grader`, configure the time zone: `sudo dpkg-reconfigure tzdata`. Choose time zone UTC.
 
-###9: Install and configure Apache to serve a Python mod_wsgi application
+9: Install and configure Apache to serve a Python mod_wsgi application
 
 - While logged in as `grader`, install Apache: `sudo apt-get install apache2`.
 - Enter public IP of the Amazon EC2 instance into browser. Check Apache is working or not by executing public IP.
@@ -133,7 +132,7 @@ sudo apt-get upgrade
 - Enable `mod_wsgi` using: `sudo a2enmod wsgi`.
 
 
-###10: Install and configure PostgreSQL
+10: Install and configure PostgreSQL
   - `sudo apt-get install libpq-dev python-dev`
   - `sudo apt-get install postgresql postgresql-contrib`
   - `sudo su - postgres`
@@ -148,13 +147,13 @@ sudo apt-get upgrade
   - `exit`
   - Switch back to the `grader` user: `exit`.
 
-###11: Install git
+11: Install git
 
 - While logged in as `grader`, install `git`: `sudo apt-get install git`.
 
 ## Deploy the Item Catalog project
 
-###12: Clone and setup the Item Catalog project from the GitHub repository 
+12: Clone and setup the Item Catalog project from the GitHub repository 
 
 - While logged in as `grader`,
 - From the `/var/www` directory, Clone the catalog project:<br>
@@ -168,7 +167,7 @@ sudo apt-get upgrade
    engine = create_engine('postgresql://catalog:catalog@localhost/catalog')
    ``` 
 
-###13: Authenticate login through Google
+13: Authenticate login through Google
 
 - Go to [Google Cloud Plateform](https://console.cloud.google.com/).
 - Click `APIs & services` on left menu.
@@ -183,7 +182,7 @@ as authorized redirect URI.
 - Replace the client ID `templates/login.html` file in the project directory.
 
 
-###14: Install the virtual environment and dependencies
+14: Install the virtual environment and dependencies
 
 - While logged in as `grader`, install pip: `sudo apt-get install python3-pip`.
 - Install the virtual environment: `sudo apt-get install python-virtualenv`
@@ -203,7 +202,7 @@ as authorized redirect URI.
   ```
 
 
-###15: Set up and enable a virtual host
+15: Set up and enable a virtual host
 
   Configure and enable a new virtual host
   - Run this: `sudo vi /etc/apache2/sites-available/catalog.conf`
@@ -238,7 +237,7 @@ as authorized redirect URI.
   
   - Reload Apache: `sudo service apache2 reload`.
 
-###16: Set up the Flask application
+16: Set up the Flask application
 
 - Create `/var/www/catalog/catalog.wsgi` file add the following lines:
 
@@ -256,7 +255,7 @@ as authorized redirect URI.
 - Run: `python db_setup.py`.
 - Deactivate the virtual environment: `deactivate`.
 
-###17: Disable the default Apache site
+17: Disable the default Apache site
 
 - Disable the default Apache site: `sudo a2dissite 000-default.conf`. 
 The following prompt will be returned:
@@ -269,12 +268,12 @@ The following prompt will be returned:
 
 - Reload Apache: `sudo service apache2 reload`.
 
-###18: Launch the Web Application
+18: Launch the Web Application
 
 - Restart Apache again: `sudo service apache2 restart`.
 - Open your browser to http://18.205.194.121 or http://ec2-18-205-194-121.compute-1.amazonaws.com.
 
-###19: Automatically install updates(optional)
+19: Automatically install updates(optional)
 
 The `unattended-upgrades` package can be used to automatically install important system updates.
 - Enable automatic (security) updates: `sudo apt-get install unattended-upgrades`.
