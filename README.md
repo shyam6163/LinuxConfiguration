@@ -80,7 +80,7 @@ sudo apt-get upgrade
 
 ## Give `grader` access
 
-5: Create a new user account named `grader`
+5: Create a new user account named `grader` and password  'grader'
 
 - While logged in as `ubuntu`, add user: `sudo adduser grader`. 
 - Enter a password (twice) and fill out information for this new user.
